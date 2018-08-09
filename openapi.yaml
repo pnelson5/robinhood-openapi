@@ -1,0 +1,157 @@
+openapi: 3.0.1
+servers:
+  - url: 'https://api.robinhood.com/'
+info:
+  title: Robinhood API
+  version: v1
+tags:
+  - name: quotes
+paths:
+  '/quotes/{ticker}/':
+    get:
+      tags:
+        - quotes
+      summary: Get the quote for a ticker
+      description: >-
+        Retrieve a ticker quote
+      operationId: retrieveQuote
+      parameters:
+        - name: ticker
+          description: Ticker
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/quote'
+  '/quotes/':
+    get:
+      tags:
+        - quotes
+      summary: Get a list of quotes
+      description: >-
+        Retrieve a list of quotes
+      operationId: retrieveQuotes
+      parameters:
+        - name: symbols
+          in: query
+          description: List of symbols to gather quotes for
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: false
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/quote'
+
+components:
+  schemas:
+    fundemental:
+      type: object
+      properties:
+        key:
+          type: string
+    instrument:
+      type: object
+      properties:
+        margin_initial_ratio:
+          type: string
+        rhs_tradability:
+          type: string
+        id:
+          type: string
+        market:
+          type: string
+        simple_name:
+          type: string
+        min_tick_size:
+          type: integer
+          format: int32
+        maintenance_ratio:
+          type: string
+        tradability:
+          type: string
+        state:
+          type: string
+        type:
+          type: string
+        tradeable:
+          type: boolean
+        fundamentals:
+          type: string
+        quote:
+          type: string
+        symbol:
+          type: string
+        day_trade_ratio:
+          type: string
+        name:
+          type: string
+        tradable_chain_id:
+          type: string
+        splits:
+          type: string
+        url:
+          type: string
+        country:
+          type: string
+        bloomberg_unique:
+          type: string
+        list_date:
+          type: string
+    quote:
+      type: object
+      properties:
+        ask_price:
+          type: string
+        ask_size:
+          type: integer
+          format: int64
+        bid_price:
+          type: string
+        bid_size:
+          type: integer
+          format: int64
+        last_trade_price:
+          type: string
+        last_extended_hours_trade_price:
+          type: string
+        previous_close:
+          type: string
+        adjusted_previous_close:
+          type: string
+        previous_close_date:
+          type: string
+        symbol:
+          type: string
+        trading_halted:
+          type: boolean
+        has_traded:
+          type: boolean
+        last_trade_price_source:
+          type: string
+        updated_at:
+          type: string
+        instrument:
+          type: string
+    split:
+      type: object
+      properties:
+        key:
+          type: string
