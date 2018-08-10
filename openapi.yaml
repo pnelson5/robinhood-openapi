@@ -6,7 +6,71 @@ info:
   version: v1
 tags:
   - name: quotes
+  - name: instruments
+  - name: fundementals
 paths:
+  '/fundamentals/{ticker}/':
+    get:
+      tags:
+        - fundementals
+      description: Retrieve fundamental data for a stock
+      operationId: retrieveFundamental
+      parameters:
+        - name: ticker
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fundemental'
+
+  '/instruments/{instrumentId}/':
+    get:
+      tags:
+        - instruments
+      description: Retrieve info on an instrument
+      operationId: retrieveInstrument
+      parameters:
+        - name: instrumentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instrument'
+
+  '/instruments/{instrumentId}/splits/':
+    get:
+      tags:
+        - instruments
+      summary: Get splits for an instrument
+      description: >-
+        Splits for an instrument
+      operationId: retrieveInstrumentSplits
+      parameters:
+        - name: instrumentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/split'
+
   '/quotes/{ticker}/':
     get:
       tags:
@@ -48,6 +112,7 @@ paths:
               type: string
           style: form
           explode: false
+          example: 'MSFT,AAPL,IBM'
       responses:
         '200':
           description: Success
@@ -65,7 +130,47 @@ components:
     fundemental:
       type: object
       properties:
-        key:
+        year_founded:
+          type: integer
+          format: int32
+        pe_ratio:
+          type: string
+        shares_outstanding:
+          type: string
+        description:
+          type: string
+        average_volume_2_weeks:
+          type: string
+        instrument:
+          type: string
+        headquarters_state:
+          type: string
+        ceo:
+          type: string
+        volume:
+          type: string
+        high:
+          type: string
+        market_cap:
+          type: string
+        num_employees:
+          type: integer
+          format: int32
+        low:
+          type: string
+        average_volume:
+          type: string
+        dividend_yield:
+          type: string
+        low_52_weeks:
+          type: string
+        sector:
+          type: string
+        open:
+          type: string
+        headquarters_city:
+          type: string
+        high_52_weeks:
           type: string
     instrument:
       type: object
@@ -153,5 +258,11 @@ components:
     split:
       type: object
       properties:
-        key:
+        previous:
+          type: string
+        results:
+          type: array
+          items:
+            type: string
+        next:
           type: string
